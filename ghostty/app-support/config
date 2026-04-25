@@ -1,0 +1,29 @@
+# =========================================================
+# Ghostty — HARD NEON PINK + BLOOM SHADER (macOS)
+# Ghostty 1.3.0-main (tip)
+# Light/Dark: Themes in ~/.config/ghostty/themes/
+# =========================================================
+
+command = /bin/zsh
+
+# ---------- System appearance: Light- und Dark-Theme wechseln mit macOS ----------
+theme = light:Hard Neon Pink Light,dark:Hard Neon Pink Dark
+window-theme = system
+
+# ---------- Font ----------
+font-family = JetBrains Mono
+font-size = 15
+font-feature = liga
+
+# ---------- Window (Farben/Shader/Opacity liegen in den Theme-Dateien) ----------
+window-padding-x = 14
+window-padding-y = 14
+macos-titlebar-style = transparent
+
+# ---------- UX ----------
+copy-on-select = true
+mouse-hide-while-typing = true
+
+# ---------- Clipboard ----------
+clipboard-read = allow
+clipboard-write = allow

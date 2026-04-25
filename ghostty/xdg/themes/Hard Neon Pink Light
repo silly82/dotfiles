@@ -1,0 +1,18 @@
+# Hard Neon Pink — light (zugehörig zum Dark, folgt System Light Mode)
+# Etwas kräftigerer Rosé-Hintergrund + fast schwarze Schrift = höherer Lesekontrast
+background = #ead8e6
+foreground = #0a0409
+
+# Etwas deckender: weniger Desktop-Durchschimmer, klarerer Panel-Kontrast
+background-opacity = 0.90
+background-blur = 20
+
+cursor-color = #7a0062
+cursor-style = block
+cursor-style-blink = true
+
+selection-background = #b01078
+selection-foreground = #fffafc
+
+# Kein Post-Processing-Shader im Light Mode (Sternfeld wäre auf hellem Grund störend)
+custom-shader = ""

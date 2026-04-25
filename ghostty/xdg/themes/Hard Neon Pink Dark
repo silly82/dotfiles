@@ -1,0 +1,15 @@
+# Hard Neon Pink — dark (Hintergrund, Shader, Glaseffekt)
+background = #050008
+foreground = #ffe8fb
+
+background-opacity = 0.70
+background-blur = 20
+
+cursor-color = #ff00ff
+cursor-style = block
+cursor-style-blink = true
+
+selection-background = #ff38dc
+selection-foreground = #120018
+
+custom-shader = /Users/silvanwalker/.config/ghostty/shaders/starfielddimm.glsl
