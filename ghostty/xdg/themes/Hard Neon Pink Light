@@ -3,6 +3,27 @@
 background = #ead8e6
 foreground = #0a0409
 
+minimum-contrast = 3.0
+
+# Auf hellem Rosé: etwas tiefere/sättigere ACC-Farben, damit Logs/Syntax klarer wirken
+palette = 0=#2a1828
+palette = 1=#b8003a
+palette = 2=#007a3d
+palette = 3=#8a5a00
+palette = 4=#0044aa
+palette = 5=#9a0088
+palette = 6=#006a6a
+palette = 7=#1a0a12
+palette = 8=#5a4858
+palette = 9=#c42050
+palette = 10=#009050
+palette = 11=#a07000
+palette = 12=#2050c0
+palette = 13=#b01090
+palette = 14=#008888
+palette = 15=#0a0a0a
+palette-generate = true
+
 # Etwas deckender: weniger Desktop-Durchschimmer, klarerer Panel-Kontrast
 background-opacity = 0.90
 background-blur = 20

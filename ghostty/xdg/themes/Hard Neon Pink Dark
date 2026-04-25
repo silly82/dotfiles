@@ -2,6 +2,29 @@
 background = #050008
 foreground = #ffe8fb
 
+# Lesbarkeit: mindestens WCAG-Kontrast von farbigem Text zum Zellenhintergrund;
+# niedriger als 3 = oft zu blass, ~4+ zieht harte Kanten
+minimum-contrast = 3.5
+
+# Eigene ANSI-Basis: kräftiger als Defaults (auf #050008 wirken viele Presets grau/flat)
+palette = 0=#180818
+palette = 1=#ff4d7a
+palette = 2=#3dff9a
+palette = 3=#ffe14a
+palette = 4=#6eb0ff
+palette = 5=#ff2fd0
+palette = 6=#3dffee
+palette = 7=#ffe4fb
+palette = 8=#6a5a72
+palette = 9=#ff8a9e
+palette = 10=#7dffc0
+palette = 11=#fff0a0
+palette = 12=#a5d0ff
+palette = 13=#ff9ff0
+palette = 14=#a0fff8
+palette = 15=#ffffff
+palette-generate = true
+
 background-opacity = 0.70
 background-blur = 20
 
