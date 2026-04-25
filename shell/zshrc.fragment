@@ -1,0 +1,4 @@
+# Inhalt in ~/.zshrc einfügen (z. B. direkt nach: source $ZSH/oh-my-zsh.sh)
+
+# ls-Farben: braune Hintergründe/-Flächen aus Default-LSCOLORS entfernt (s. dotfiles)
+[[ -f "$HOME/dotfiles/shell/macos-lscolors.zsh" ]] && source "$HOME/dotfiles/shell/macos-lscolors.zsh"

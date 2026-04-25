@@ -57,4 +57,4 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
 
 ## Shell (zsh / macOS `ls`)
 
-Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (wird von `~/.zshrc` gesourct, Pfad zu `~/dotfiles`).
+Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (lokal: in `~/.zshrc` per `source` einbinden). **Vorlage:** `shell/zshrc.fragment` (Zeilen in die eigene `~/.zshrc` übernehmen).
