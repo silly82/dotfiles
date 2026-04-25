@@ -54,3 +54,7 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
 3. Evtl. altes `~/.config/kitty` sichern, dann:  
    `ln -sfn "$HOME/dotfiles/kitty/xdg" "$HOME/.config/kitty"`
 4. Ghostty-Repo ist die Referenz: Änderungen an `ghostty/…/Hard Neon Pink *` ggf. hier nachziehen (Dark-Datei `dark-theme.auto.conf`, Light-Datei `light-theme.auto.conf`).
+
+## Shell (zsh / macOS `ls`)
+
+Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (wird von `~/.zshrc` gesourct, Pfad zu `~/dotfiles`).
