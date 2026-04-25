@@ -62,6 +62,8 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
 | `iterm2/Hard Neon Pink Dark.itermcolors` | `ghostty/.../Hard Neon Pink Dark` (ANSI, Hintergrund, Vordergrund, Cursor, Selektion) |
 | `iterm2/Hard Neon Pink Light.itermcolors` | `.../Hard Neon Pink Light` |
 
+**Lokales iTerm2-Verzeichnis (Symlinks ins Repo):** iTerm2 hat keinen offiziell überwachten Preset-Ordner; sinnvoll ist `~/Library/Application Support/iTerm2/ColorSchemes/`. Symlinks anlegen: `./iterm2/link-into-macos.sh` ausführen (legt die beiden `*.itermcolors` dorthin, zeigt ins Dotfiles-Repo). Danach: im Finder in diesen Ordner wechseln und eine Datei doppelklicken **oder** *Settings → Profile → Colors → Color Presets → Import…* und die Datei aus genau diesem Ordner wählen.
+
 **Import:** *iTerm2* → *Einstellungen* / *Settings* → *Profile* → Reiter *Farben* / *Colors* → *Color Presets* → *Import…* → gewünschte `*.itermcolors` wählen → im gleichen Menü *Color Presets* das importierte Set auf das Profil anwenden.
 
 **Hinweis:** Transparenz/Blur/Shader wie in Ghostty gibt es in iTerm2 **nicht 1:1**; ggf. unter *Fenster* / *Window* (Transparenz, Hintergrund unscharf) manuell annähern. **Schrift** separat: z. B. *JetBrains Mono* Größe **15** wie in `ghostty/app-support/config`.
