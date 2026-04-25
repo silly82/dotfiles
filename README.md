@@ -55,6 +55,17 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
    `ln -sfn "$HOME/dotfiles/kitty/xdg" "$HOME/.config/kitty"`
 4. Ghostty-Repo ist die Referenz: Änderungen an `ghostty/…/Hard Neon Pink *` ggf. hier nachziehen (Dark-Datei `dark-theme.auto.conf`, Light-Datei `light-theme.auto.conf`).
 
+## iTerm2 (Color Presets, wie Ghostty „Hard Neon Pink“)
+
+| Datei im Repo | Entspricht |
+|---------------|------------|
+| `iterm2/Hard Neon Pink Dark.itermcolors` | `ghostty/.../Hard Neon Pink Dark` (ANSI, Hintergrund, Vordergrund, Cursor, Selektion) |
+| `iterm2/Hard Neon Pink Light.itermcolors` | `.../Hard Neon Pink Light` |
+
+**Import:** *iTerm2* → *Einstellungen* / *Settings* → *Profile* → Reiter *Farben* / *Colors* → *Color Presets* → *Import…* → gewünschte `*.itermcolors` wählen → im gleichen Menü *Color Presets* das importierte Set auf das Profil anwenden.
+
+**Hinweis:** Transparenz/Blur/Shader wie in Ghostty gibt es in iTerm2 **nicht 1:1**; ggf. unter *Fenster* / *Window* (Transparenz, Hintergrund unscharf) manuell annähern. **Schrift** separat: z. B. *JetBrains Mono* Größe **15** wie in `ghostty/app-support/config`.
+
 ## Shell (zsh / macOS `ls`)
 
 Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (lokal: in `~/.zshrc` per `source` einbinden). **Vorlage:** `shell/zshrc.fragment` (Zeilen in die eigene `~/.zshrc` übernehmen).
