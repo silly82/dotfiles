@@ -34,3 +34,23 @@ Dieses Repo hält die **Quelldateien** unter `ghostty/`. An den obigen Stellen l
 5. Pfade in `config` (Schriften, Theme-Namen) an die neue Umgebung anpassen, falls nötig.
 
 **Git:** Commit-Autor in der Historie hängt von deiner lokalen `git config` ab — dazu gehört kein Muss, das hier zu dokumentieren.
+
+## kitty (macOS, XDG)
+
+| Rolle | Pfad |
+|--------|------|
+| Konfigurationsverzeichnis (Standard) | `~/.config/kitty/` |
+
+In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty.conf`).
+
+- **Farben** entsprechen **Ghostty „Hard Neon Pink“** (Dark/Light), inkl. 16-ANSI-Farben, Hintergrund/Deckkraft, Blur, Cursor, Selektion, Tab-Leiste, sowie `text_fg_override_threshold` (Parallele zu `minimum-contrast` in Ghostty: 3.5 / 3.0 `ratio`).
+- **Kitty 0.38+:** `dark-theme.auto.conf` / `light-theme.auto.conf` wechseln mit **macOS Hell/Dunkel**; `no-preference-theme.auto.conf` inkludiert derzeit dasselbe wie Dark.
+- `kitty.conf`: Schrift (JetBrains Mono, 15), Padding 14, Tasten, `mouse_hide_wait -1` (Maus blendet beim Tippen ein), kein doppelter Farb-Block in der Hauptdatei (Farben in den `*-theme.auto.conf`).
+
+### Neu aufsetzen
+
+1. [kitty](https://sw.kovidgoyal.net/kitty/) installieren.
+2. Repo wie oben klonen.
+3. Evtl. altes `~/.config/kitty` sichern, dann:  
+   `ln -sfn "$HOME/dotfiles/kitty/xdg" "$HOME/.config/kitty"`
+4. Ghostty-Repo ist die Referenz: Änderungen an `ghostty/…/Hard Neon Pink *` ggf. hier nachziehen (Dark-Datei `dark-theme.auto.conf`, Light-Datei `light-theme.auto.conf`).
