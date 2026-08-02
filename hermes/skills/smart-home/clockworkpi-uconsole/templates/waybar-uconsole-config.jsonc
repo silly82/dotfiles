@@ -1,0 +1,42 @@
+// ~/.config/waybar/config.jsonc for ClockworkPI uConsole (CM4/CM5)
+// Compact handheld status bar sized for the ~853x480 landscape screen.
+// Hardware paths are uConsole-specific — verify on the device:
+//   battery:  ls /sys/class/power_supply/   -> axp20x-battery (CM4), axp22x-ac = mains
+//   backlight: brightnessctl -l              -> device "backlight@0"
+// Pair with a style.css (dark, ~22px tall). Autostart via `exec waybar` in the sway config.
+{
+    "layer": "top",
+    "position": "top",
+    "height": 22,
+    "spacing": 4,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["pulseaudio", "backlight", "network", "battery"],
+    "sway/workspaces": { "disable-scroll": true, "format": "{name}" },
+    "clock": {
+        "format": "{:%a %d.%m  %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "battery": {
+        "states": { "warning": 25, "critical": 10 },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% chg",
+        "format-plugged": "{capacity}% ac",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "format-wifi": "{signalStrength}% wifi",
+        "format-ethernet": "eth",
+        "format-disconnected": "off",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)"
+    },
+    "pulseaudio": {
+        "format": "{volume}% vol",
+        "format-muted": "mute",
+        "on-click": "pavucontrol"
+    },
+    "backlight": {
+        "device": "backlight@0",
+        "format": "{percent}% bl"
+    }
+}

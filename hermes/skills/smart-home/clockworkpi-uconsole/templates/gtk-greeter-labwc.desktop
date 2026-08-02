@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=LightDM GTK Greeter on Wayland
+Comment=Runs the GTK greeter (with session chooser) inside labwc/Wayland
+Exec=/usr/bin/labwc -C /etc/xdg/labwc-gtk-greeter/
+Type=Application
+X-LightDM-Session-Type=wayland
