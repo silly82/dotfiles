@@ -16,15 +16,16 @@ if [[ ! -d "$REPO_DIR/.git" ]]; then
   exit 1
 fi
 
-mkdir -p "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins"
+mkdir -p "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins" "$BACKUP_DIR/skins"
 
 # Nur gemeinsam nutzbare Daten synchronisieren. Keine Secrets, Sessions, Logs oder Caches.
-rm -rf "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins"
-mkdir -p "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins"
+rm -rf "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins" "$BACKUP_DIR/skins"
+mkdir -p "$BACKUP_DIR/skills" "$BACKUP_DIR/memories" "$BACKUP_DIR/cron" "$BACKUP_DIR/plugins" "$BACKUP_DIR/skins"
 cp -a "$HERMES_DIR/skills/." "$BACKUP_DIR/skills/"
 [[ -d "$HERMES_DIR/memories" ]] && cp -a "$HERMES_DIR/memories/." "$BACKUP_DIR/memories/" || true
 [[ -d "$HERMES_DIR/cron" ]] && cp -a "$HERMES_DIR/cron/." "$BACKUP_DIR/cron/" || true
 [[ -d "$HERMES_DIR/plugins" ]] && cp -a "$HERMES_DIR/plugins/." "$BACKUP_DIR/plugins/" || true
+[[ -d "$HERMES_DIR/skins" ]] && cp -a "$HERMES_DIR/skins/." "$BACKUP_DIR/skins/" || true
 cp -f "$HERMES_DIR/config.yaml" "$BACKUP_DIR/config.yaml"
 
 cat > "$BACKUP_DIR/.gitignore" <<'EOF'
@@ -42,6 +43,8 @@ image_cache/
 bootstrap-cache/
 models_dev_cache.json
 provider_models_cache.json
+# User-defined Hermes skins are safe to version
+
 update_info.json
 EOF
 

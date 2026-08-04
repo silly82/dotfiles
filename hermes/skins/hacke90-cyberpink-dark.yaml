@@ -1,0 +1,44 @@
+name: hacke90-cyberpink-dark
+description: Hacke 90 cyberpunk — hot pink neon on deep graphite
+
+colors:
+  background: "#120A14"
+  ui_accent: "#FF2DAA"
+  banner_accent: "#FF2DAA"
+  banner_title: "#FF70C8"
+  banner_text: "#F7E6F2"
+  ui_text: "#F7E6F2"
+  banner_dim: "#B58AA8"
+  banner_border: "#5A184C"
+  ui_border: "#5A184C"
+  ui_tool: "#FF2DAA"
+  ui_thinking: "#C89DBD"
+  ui_ok: "#65FBD0"
+  ui_warn: "#FFD166"
+  ui_error: "#FF557F"
+  prompt: "#FF70C8"
+  input_rule: "#FF2DAA"
+  response_border: "#FF70C8"
+  status_bar_bg: "#1D0D1F"
+  status_bar_text: "#F7E6F2"
+  status_bar_good: "#65FBD0"
+  status_bar_warn: "#FFD166"
+  status_bar_critical: "#FF557F"
+  session_label: "#FF70C8"
+  session_border: "#5A184C"
+  diff_added: "#65FBD0"
+  diff_removed: "#FF557F"
+  diff_added_word: "#1B6B57"
+  diff_removed_word: "#7A2342"
+  syntax_string: "#65FBD0"
+  syntax_number: "#FFD166"
+  syntax_keyword: "#FF70C8"
+  syntax_comment: "#B58AA8"
+
+branding:
+  agent_name: Hermes Agent
+  prompt_symbol: "❯"
+  help_header: "[ H A C K E  9 0 ]  //  C Y B E R P I N K"
+
+tool_prefix: "┊"
+spinner: "⟡"

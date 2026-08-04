@@ -12,4 +12,6 @@ image_cache/
 bootstrap-cache/
 models_dev_cache.json
 provider_models_cache.json
+# User-defined Hermes skins are safe to version
+
 update_info.json
