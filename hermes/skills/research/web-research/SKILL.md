@@ -76,6 +76,18 @@ texts = re.findall(r'>([^<]{20,500})<', html)
 texts = re.findall(r'"text":"([^"]{20,500})"', html)
 ```
 
+### Layer 8: Discovering desktop widgets and usage monitors
+When the user asks for a current desktop widget, tray monitor, or dashboard for an API provider, search GitHub’s repository API rather than relying only on general web search. Use a User-Agent and search several class-level queries such as `OpenRouter Windows widget`, `OpenRouter desktop widget`, `OpenRouter balance tray`, and `OpenRouter usage dashboard`.
+
+Inspect README and release pages before recommending a candidate. Verify platform support, prebuilt releases, widget versus tray versus terminal behavior, refresh behavior, credential handling, and whether it reports balance, spend, tokens, limits, or only local-log estimates. Keep these metrics separate: an account balance is not proof of exact token consumption.
+
+Prefer official release assets over arbitrary download sites. Treat API keys as secrets: do not request them in chat, recommend a separate/restricted key where possible, and explain where the application stores or transmits it.
+
+Support-file pointer: `references/provider-usage-widgets.md` contains the OpenRouter widget research checklist and examples.
+
+## Project release and changelog research
+When the user asks what changed recently in an open-source project, prefer the project's authoritative release feed/API over search snippets. For GitHub repositories, query `https://api.github.com/repos/<owner>/<repo>/releases?per_page=30` with a User-Agent and parse JSON directly, rather than through shell-escaped or truncated text. Filter releases by the requested time window, and report tag, publication date, release URL, and notable release-note headings. Include prereleases only when clearly labeled. Cross-check compatibility notes before recommending an upgrade, distinguishing software changes, hardware support, and breaking changes. For “last year,” anchor the window to the current date and state the cutoff; do not silently mix older releases or future-dated entries. For a major version, explicitly call out migration requirements such as matching sender/receiver versions, Lua scripts, filesystem changes, and unsupported hardware. Summarize practical user impact first, then update cautions and authoritative links.
+
 ## Key signals a project is alive
 - **Website**: online, regularly updated (`contentModifiedOn` timestamp changes weekly/monthly)
 - **Wayback Machine**: shows regular snapshots (weekly/monthly cadence = active development)

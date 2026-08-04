@@ -15,6 +15,12 @@ Hermes uses `~/.hermes/` as its home directory. Different platforms have differe
 
 ## Solution: Two-Layer Separation
 
+### Windows Desktop Sync Launcher
+
+For a repeatable Windows setup, keep the sync implementation in the repository and expose a small `.cmd` launcher on the Desktop. The launcher should enter the repository and invoke Git Bash; the shell script should derive `REPO_DIR` from its own location rather than relying on `$HOME` or the current working directory. This makes the shortcut work when double-clicked from Explorer and avoids assuming that the Windows Hermes home is `~/.hermes`.
+
+Use `references/windows-desktop-sync.md` for the tested file layout, launcher pattern, and verification checklist.
+
 ### Layer 1 — Share via Dotfiles (Git)
 
 These files are platform-agnostic text configs: safe to version-control and sync freely.
