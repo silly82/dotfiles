@@ -1,0 +1,1 @@
+The `_correlation_analysis.py` and `_plot_dashboard.py` scripts generated during the SisLink gondola fleet analysis (July 2026) are still in `D:\Benutzer\wasi\Documents\Sislink\`. They are working examples of the EDA pipeline but are session-specific artifacts. The reusable templates are in this skill's `templates/` directory.

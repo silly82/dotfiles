@@ -1,0 +1,15 @@
+.env
+auth.json
+auth.lock
+*.db
+*.db-*
+*.lock
+sessions/
+logs/
+cache/
+audio_cache/
+image_cache/
+bootstrap-cache/
+models_dev_cache.json
+provider_models_cache.json
+update_info.json

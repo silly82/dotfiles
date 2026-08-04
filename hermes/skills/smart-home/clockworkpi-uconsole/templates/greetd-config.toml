@@ -1,7 +1,0 @@
-[terminal]
-vt = 7
-
-[default_session]
-# cage (minimal wlroots kiosk compositor) runs the gtkgreet wrapper script.
-command = "cage -s -- /usr/local/bin/greetd-gtkgreet-run"
-user = "_greetd"
