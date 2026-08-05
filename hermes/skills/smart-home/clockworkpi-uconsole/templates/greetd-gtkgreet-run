@@ -1,0 +1,10 @@
+#!/bin/sh
+# Wird von cage ausgefuehrt. Dreht Display, startet dann gtkgreet.
+# sleep: cage braucht ~1s um den Output bereit zu haben — 0.4s reicht oft nicht.
+# transform: Der Wert MUSS abgestimmt sein. Wenn Sway transform 90 nutzt,
+# braucht cage hier oft transform 270 (180° Unterschied) — Grund ist nicht
+# vollstaendig geklaert (cage-Quirk vs. wlr-randr race condition).
+# Vor Aenderung: grep transform /usr/local/bin/greetd-gtkgreet-run und
+#                grep transform ~/.config/sway/config vergleichen.
+( sleep 1; /usr/bin/wlr-randr --output DSI-1 --transform 270 --scale 1.5 ) &
+exec /usr/bin/gtkgreet
