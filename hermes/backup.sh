@@ -11,17 +11,17 @@ echo "Backing up Hermes data to $BACKUP_DIR"
 # Create backup directory structure
 mkdir -p "$BACKUP_DIR"/{skills,memories,cron,plugins}
 
-# Sync directories (preserve timestamps, recursive, exclude cache files)
-rsync -av --delete --exclude='*.db' --exclude='*.db-*' --exclude='*.log' --exclude='*.lock' --exclude='cache' --exclude='image_cache' --exclude='audio_cache' --exclude='pastes' --exclude='sessions' --exclude='state-snapshots' --exclude='logs' --exclude='node_modules' \
+# Sync directories additively; never delete files from the repository.
+rsync -av --exclude='*.db' --exclude='*.db-*' --exclude='*.log' --exclude='*.lock' --exclude='cache' --exclude='image_cache' --exclude='audio_cache' --exclude='pastes' --exclude='sessions' --exclude='state-snapshots' --exclude='logs' --exclude='node_modules' \
     "$HERMES_DIR/skills/" "$BACKUP_DIR/skills/"
 
-rsync -av --delete --exclude='*.db' --exclude='*.db-*' --exclude='*.log' \
+rsync -av --exclude='*.db' --exclude='*.db-*' --exclude='*.log' \
     "$HERMES_DIR/memories/" "$BACKUP_DIR/memories/"
 
-rsync -av --delete \
+rsync -av \
     "$HERMES_DIR/cron/" "$BACKUP_DIR/cron/"
 
-rsync -av --delete \
+rsync -av \
     "$HERMES_DIR/plugins/" "$BACKUP_DIR/plugins/"
 
 # Copy config.yaml if exists
