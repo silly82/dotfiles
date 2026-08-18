@@ -1,5 +1,5 @@
 model:
-  default: openai/gpt-5.6-luna
+  default: deepseek/deepseek-chat-v3.1
   provider: openrouter
   base_url: https://openrouter.ai/api/v1
   api_mode: chat_completions
@@ -46,7 +46,7 @@ agent:
       YOU READY?! LET'S DO THIS! 💪😤🚀
 terminal:
   backend: local
-  cwd: C:\Users\wasi\Documents
+  cwd: .
   timeout: 180
   home_mode: auto
   container_cpu: 1
@@ -57,6 +57,7 @@ terminal:
   lifetime_seconds: 300
 browser:
   inactivity_timeout: 120
+  engine: chrome
 tool_loop_guardrails:
   warnings_enabled: true
   hard_stop_enabled: false
@@ -74,16 +75,17 @@ compression:
   target_ratio: 0.2
   protect_last_n: 20
   protect_first_n: 3
+  codex_gpt55_autoraise: true
+  codex_app_server_auto: native
 prompt_caching:
   cache_ttl: 5m
 display:
   compact: false
-  personality: technical
   busy_input_mode: interrupt
   bell_on_complete: false
   show_reasoning: false
   streaming: true
-  skin: hacke90-cyberpink-dark
+  skin: kitty-light-rosa
   interim_assistant_messages: true
   tool_progress: all
   cleanup_progress: false
@@ -107,7 +109,20 @@ delegation:
   max_iterations: 50
 skills:
   creation_nudge_interval: 15
-timezone: MEZ
+command_allowlist:
+  - shell command via -c/-lc flag
+  - overwrite system file via tee
+  - stop/restart system service
+  - delete in root path
+  - shell execution via heredoc
+  - sudo with combined-flag privilege escalation
+  - script execution via -e/-c flag
+  - disk copy
+  - in-place edit of system config
+  - copy/move file into system config path
+  - overwrite system config
+  - script execution via heredoc
+  - recursive delete
 code_execution:
   timeout: 300
   max_tool_calls: 50
@@ -129,7 +144,22 @@ session_reset:
 group_sessions_per_user: true
 platform_toolsets:
   cli:
-    - hermes-cli
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - vision
+    - web
   telegram:
     - hermes-telegram
   discord:
@@ -150,3 +180,24 @@ platform_toolsets:
     - hermes-teams
   google_chat:
     - hermes-google_chat
+known_plugin_toolsets:
+  cli:
+    - spotify
+mcp_servers:
+  blender:
+    command: uvx
+    args:
+      - blender-mcp==1.6.4
+    env:
+      DISABLE_TELEMETRY: 'true'
+    enabled: true
+  safari-stp:
+    command: /Applications/Safari Technology Preview.app/Contents/MacOS/safaridriver
+    args:
+      - --mcp
+    enabled: true
+  chrome:
+    command: chromedriver
+    args:
+      - --mcp
+    enabled: false
