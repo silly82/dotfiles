@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qutebrowser · uConsole CM5</title>
+<style>
+  :root {
+    --bg:     #0d0d0d;
+    --bg2:    #1a0a1e;
+    --fg:     #ffb8d0;
+    --accent: #ff2a6d;
+    --purple: #ff00ff;
+    --cyan:   #00ffcc;
+    --green:  #00ff41;
+    --gray:   #404040;
+    --white:  #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Iosevka", "monospace", monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 6px 8px;
+  }
+
+  h1 {
+    color: var(--accent);
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+  }
+
+  h1 span {
+    color: var(--gray);
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-left: 8px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  section {
+    background: var(--bg2);
+    border: 1px solid #2a0a30;
+    border-top: 2px solid var(--accent);
+    padding: 5px 7px;
+  }
+
+  section h2 {
+    color: var(--accent);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  td {
+    padding: 1px 0;
+    vertical-align: top;
+  }
+
+  td.key {
+    color: var(--cyan);
+    white-space: nowrap;
+    padding-right: 6px;
+    min-width: 52px;
+    font-weight: bold;
+  }
+
+  td.desc {
+    color: var(--fg);
+  }
+
+  .custom td.key { color: var(--purple); }
+  .cmd    td.key { color: var(--green); }
+
+  .sep {
+    border-top: 1px solid #2a0a30;
+    margin: 3px 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>qutebrowser <span>uConsole CM5 · Mod = Alt</span></h1>
+
+<div class="grid">
+
+  <section>
+    <h2>Navigation</h2>
+    <table>
+      <tr><td class="key">hjkl</td><td class="desc">scrollen</td></tr>
+      <tr><td class="key">gg / G</td><td class="desc">oben / unten</td></tr>
+      <tr><td class="key">d / u</td><td class="desc">½ Seite ↓↑</td></tr>
+      <tr><td class="key">H / L</td><td class="desc">zurück / vor</td></tr>
+      <tr class="sep"><td colspan="2"></td></tr>
+      <tr><td class="key">f</td><td class="desc">Link-Hint öffnen</td></tr>
+      <tr><td class="key">F</td><td class="desc">Link neuer Tab</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Tabs</h2>
+    <table>
+      <tr><td class="key">J / K</td><td class="desc">Tab ← →</td></tr>
+      <tr><td class="key">o</td><td class="desc">URL öffnen</td></tr>
+      <tr><td class="key">O</td><td class="desc">URL neuer Tab</td></tr>
+      <tr><td class="key">T</td><td class="desc">Tab wechseln</td></tr>
+      <tr><td class="key">d</td><td class="desc">Tab schliessen</td></tr>
+      <tr><td class="key">u</td><td class="desc">Tab wiederherstellen</td></tr>
+      <tr class="sep"><td colspan="2"></td></tr>
+      <tr><td class="key">r / R</td><td class="desc">neu laden / hard</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Suche &amp; Zoom</h2>
+    <table>
+      <tr><td class="key">/</td><td class="desc">suchen</td></tr>
+      <tr><td class="key">n / N</td><td class="desc">nächster / voriger Treffer</td></tr>
+      <tr class="sep"><td colspan="2"></td></tr>
+      <tr><td class="key">Alt+=</td><td class="desc">zoom +</td></tr>
+      <tr><td class="key">Alt+-</td><td class="desc">zoom −</td></tr>
+      <tr><td class="key">Alt+0</td><td class="desc">zoom reset</td></tr>
+      <tr class="sep"><td colspan="2"></td></tr>
+      <tr><td class="key">yy</td><td class="desc">URL kopieren</td></tr>
+      <tr><td class="key">pp</td><td class="desc">URL aus Clipboard</td></tr>
+    </table>
+  </section>
+
+  <section class="custom">
+    <h2>Sway · Eigen</h2>
+    <table>
+      <tr><td class="key">Mod+b</td><td class="desc">Browser starten</td></tr>
+      <tr><td class="key">Mod+Ret</td><td class="desc">Terminal (foot)</td></tr>
+      <tr><td class="key">Mod+d</td><td class="desc">App-Launcher (fuzzel)</td></tr>
+      <tr><td class="key">Mod+z</td><td class="desc">Scale 2× (gross)</td></tr>
+      <tr><td class="key">Mod+Z</td><td class="desc">Scale 1× (klein)</td></tr>
+      <tr class="sep"><td colspan="2"></td></tr>
+      <tr><td class="key">,r</td><td class="desc">Dark Mode toggle</td></tr>
+      <tr><td class="key">,t</td><td class="desc">neuer Tab</td></tr>
+    </table>
+  </section>
+
+  <section class="cmd" style="grid-column: span 4;">
+    <h2>Kommandos &nbsp;( : )</h2>
+    <table>
+      <tr>
+        <td class="key" style="width:13%">:open &lt;url&gt;</td><td class="desc" style="width:20%">URL öffnen</td>
+        <td class="key" style="width:13%">:tab-close</td><td class="desc" style="width:20%">Tab schliessen</td>
+        <td class="key" style="width:13%">:set</td><td class="desc" style="width:21%">Einstellung ändern</td>
+      </tr>
+      <tr>
+        <td class="key">:history</td><td class="desc">Verlauf</td>
+        <td class="key">:download</td><td class="desc">Downloads</td>
+        <td class="key">:config-edit</td><td class="desc">config.py öffnen</td>
+      </tr>
+      <tr>
+        <td class="key">:bookmark-add</td><td class="desc">Lesezeichen</td>
+        <td class="key">:bookmark-list</td><td class="desc">Lesezeichen anzeigen</td>
+        <td class="key">:quit</td><td class="desc">beenden</td>
+      </tr>
+    </table>
+  </section>
+
+</div>
+</body>
+</html>
