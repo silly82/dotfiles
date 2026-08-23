@@ -4,8 +4,9 @@ model:
   base_url: https://openrouter.ai/api/v1
   api_mode: chat_completions
 agent:
-  max_turns: 60
+  max_turns: 90
   verbose: false
+  verify_on_stop: true
   reasoning_effort: medium
   personalities:
     helpful: You are a helpful, friendly AI assistant.
@@ -107,6 +108,7 @@ memory:
   flush_min_turns: 6
 delegation:
   max_iterations: 50
+  max_concurrent_children: 3
 skills:
   creation_nudge_interval: 15
 command_allowlist:

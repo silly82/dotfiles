@@ -15,3 +15,16 @@ provider_models_cache.json
 # User-defined Hermes skins are safe to version
 
 update_info.json
+# Runtime-only Hermes state (never sync or commit)
+state.db*
+verification_evidence.db
+projects.db
+kanban.db*
+.pairing/
+pastes/
+desktop/
+bin/
+*.db-wal
+*.db-shm
+.DS_Store
+Thumbs.db

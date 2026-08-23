@@ -17,3 +17,7 @@ Bitwarden CLI installed via Nix (bw in ~/.nix-profile/bin). Configured with self
 Mac browsers: Safari, Safari Tech Preview, Firefox, Opera, Tor, Vivaldi. No Chrome installed — browser_navigate fails; use curl or open -a Firefox.
 §
 Hermes Browser Engine: Chrome funktioniert (HeadlessChrome/151.0.0.0). Safari STP MCP Server konfiguriert, aber ChromeDriver MCP scheint nicht zu funktionieren (Connection failed).
+§
+Standard documents directory: D:\Benutzer\wasi\Documents\
+§
+Der Nutzer möchte D:\Benutzer\wasi\Documents als Standard-Arbeitsverzeichnis für Dokument- und Dateiaufgaben.

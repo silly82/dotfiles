@@ -5,3 +5,7 @@ User workflow: Iterative Plan→Build→Verify→Commit→Tag→Push. Akzeptiert
 GallifreyM1: arduino-cli lives at `/Applications/Arduino IDE.app/Contents/Resources/app/lib/backend/resources/arduino-cli` (NOT on PATH). Any Python script that shells out to arduino-cli must include a fallback list — `shutil.which('arduino-cli')` alone returns None. See scripts/flashlib/build.py `_cli()` for the reference pattern.
 §
 Silvan (silly82) — bevorzugt A.B.C.D-Firmware-Versionierung (TUI = großes Feature = B-Bump, nicht C). D=BUILD ist nur in Git-Tags, NICHT im Code (sonst Neukompilation bei jedem Commit). Helper-Skript scripts/version.sh macht Tag-Management. Schema gilt ab bestehendem v1.1.0.
+§
+User interessiert sich für ExpressLRS, insbesondere Unterstützung älterer STM32-Hardware und den 3.x.x-maintenance-Zweig.
+§
+User bevorzugt technische Netzwerkübersichten als skalierbare Vektorgrafik (SVG) und PDF, mit konkreten IP-/VLAN-/Tunnelpfaden und schrittweiser Anpassung an die reale Topologie.
