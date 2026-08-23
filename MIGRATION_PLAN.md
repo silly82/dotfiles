@@ -29,7 +29,7 @@ End state: exactly **two** repos, no permanent branches-per-machine.
 
 **Key finding:** `nixos-config` is the newer, actively-maintained source for sway/greetd/foot on the uConsole. `uconsole-dotfiles`'s `sway/config` and `greetd/config.toml` are very likely stale duplicates that lost the merge. **Waybar config and the wayvnc systemd override are not declared anywhere in `nixos-config`** — those are the only pieces of `uconsole-dotfiles` not already superseded, and are what actually needs migrating.
 
-**Known bug to fix along the way:** the nix-declared sway config sets `output * bg /tmp/wallpaper.png fill` — `/tmp` does not survive a reboot, so the wallpaper silently disappears after every restart. Fix in Step 4.
+**Update 2026-08-23:** the local Mac clone of `nixos-config` was 4 commits behind `origin/main` (stale uncommitted draft found in the working tree, stashed — not lost — and fast-forwarded to `origin/main`). Those missed commits already fixed the wallpaper bug (now points at `/home/silly82/.config/sway/wallpaper.png`, matching what Step 4 below used to propose) and added sops-nix-based WiFi PSK management for the uConsole. **Step 4 (wallpaper path fix) is therefore already done upstream — skip it.** Always re-fetch/pull all three repos before trusting this plan's "current state" section.
 
 ## Target end state
 
@@ -114,21 +114,9 @@ not in this repo. This repo only holds what NixOS does not declare for that host
 
 (German mirror: translate 1:1 into Swiss High German — "ss" not "ß" — same as the rest of `README.md`.)
 
-### Step 4 — Fix the wallpaper path in `nixos-config`
+### Step 4 — ~~Fix the wallpaper path in `nixos-config`~~ (already done upstream, skip)
 
-In `hosts/uconsole-cm5/configuration.nix`, inside `environment.etc."sway/config".text`, change:
-
-```
-output * bg /tmp/wallpaper.png fill
-```
-
-to:
-
-```
-output * bg /home/silly82/.config/sway/wallpaper.png fill
-```
-
-Sway's `output … bg` needs an absolute path (no `~`); confirm `/home/silly82` is still the right home directory before applying.
+Already fixed on `origin/main` as of `nixos-config` commit `6a8735f` — `environment.etc."sway/config".text` already points at `/home/silly82/.config/sway/wallpaper.png`. Nothing to do here; keep going to Step 5.
 
 ### Step 5 — Commit and push the branch (not `main`)
 
@@ -137,7 +125,11 @@ cd ~/dotfiles
 git add waybar systemd wallpaper README.md
 git commit -m "Merge uconsole-dotfiles: waybar, wayvnc systemd override, wallpaper"
 git push -u origin dotfiles-consolidation
+```
 
+`nixos-config`'s branch is only relevant if Step 1 found something to port over — with Step 4 now a no-op, that's probably nothing. If `git status` on `~/nixos-config` shows no changes, skip pushing that branch and delete it locally (`git checkout main && git branch -d dotfiles-consolidation`). If Step 1 did turn something up:
+
+```bash
 cd ~/nixos-config
 git add hosts/uconsole-cm5/configuration.nix
 git commit -m "uconsole-cm5: point sway wallpaper at a persistent path"
@@ -233,7 +225,7 @@ Zielzustand: genau **zwei** Repos, keine dauerhaften Branches pro Rechner.
 
 **Kernbefund:** `nixos-config` ist die neuere, aktiv gepflegte Quelle für Sway/greetd/foot auf der uConsole. `uconsole-dotfiles`s `sway/config` und `greetd/config.toml` sind mit hoher Wahrscheinlichkeit veraltete Duplikate, die den Merge verpasst haben. **Waybar-Config und der wayvnc-systemd-Override sind nirgends in `nixos-config` deklariert** — das sind die einzigen Teile von `uconsole-dotfiles`, die tatsächlich noch migriert werden müssen.
 
-**Bekannter Bug, der dabei gleich behoben wird:** die Nix-deklarierte Sway-Config setzt `output * bg /tmp/wallpaper.png fill` — `/tmp` übersteht keinen Neustart, das Wallpaper verschwindet also nach jedem Reboot stillschweigend. Fix in Schritt 4.
+**Update 23.08.2026:** der lokale Mac-Klon von `nixos-config` lag 4 Commits hinter `origin/main` (veralteter, uncommitteter Entwurf im Arbeitsverzeichnis gefunden, gestasht — nicht verloren — und per Fast-Forward auf `origin/main` gebracht). Diese verpassten Commits enthielten bereits den Wallpaper-Fix (zeigt jetzt auf `/home/silly82/.config/sway/wallpaper.png`, genau das, was Schritt 4 unten vorschlug) sowie eine sops-nix-basierte WiFi-PSK-Verwaltung für die uConsole. **Schritt 4 (Wallpaper-Pfad-Fix) ist damit bereits upstream erledigt — überspringen.** Vor Vertrauen in den "Ist-Zustand" dieses Plans immer alle drei Repos frisch fetchen/pullen.
 
 ## Zielstruktur
 
@@ -293,21 +285,9 @@ cp /tmp/uconsole-dotfiles-migrate/sway/wallpapers/wallpaper.png wallpaper/uconso
 
 Neuen Abschnitt ergänzen, Englisch zuerst, dann die deutsche Fassung (gleiche Struktur wie die bestehenden Abschnitte zu Ghostty/kitty/iterm2). Inhalt siehe englischer Teil oben — 1:1 ins Schweizer Hochdeutsch übertragen ("ss" statt "ß"), wie im restlichen `README.md`.
 
-### Schritt 4 — Wallpaper-Pfad in `nixos-config` korrigieren
+### Schritt 4 — ~~Wallpaper-Pfad in `nixos-config` korrigieren~~ (bereits upstream erledigt, überspringen)
 
-In `hosts/uconsole-cm5/configuration.nix`, innerhalb von `environment.etc."sway/config".text`, ändern von:
-
-```
-output * bg /tmp/wallpaper.png fill
-```
-
-zu:
-
-```
-output * bg /home/silly82/.config/sway/wallpaper.png fill
-```
-
-Sway's `output … bg` braucht einen absoluten Pfad (kein `~`); vor Anwendung prüfen, ob `/home/silly82` noch das richtige Home-Verzeichnis ist.
+Bereits gefixt auf `origin/main`, `nixos-config`-Commit `6a8735f` — `environment.etc."sway/config".text` zeigt schon auf `/home/silly82/.config/sway/wallpaper.png`. Nichts zu tun, weiter mit Schritt 5.
 
 ### Schritt 5 — Committen und Branch pushen (nicht `main`)
 
@@ -316,10 +296,14 @@ cd ~/dotfiles
 git add waybar systemd wallpaper README.md
 git commit -m "Merge uconsole-dotfiles: waybar, wayvnc systemd override, wallpaper"
 git push -u origin dotfiles-consolidation
+```
 
+Der `nixos-config`-Branch ist nur relevant, falls Schritt 1 etwas zum Nachziehen gefunden hat — da Schritt 4 jetzt entfällt, ist das vermutlich nichts. Zeigt `git status` in `~/nixos-config` keine Änderungen, Branch überspringen und lokal wieder löschen (`git checkout main && git branch -d dotfiles-consolidation`). Falls Schritt 1 doch etwas ergeben hat:
+
+```bash
 cd ~/nixos-config
 git add hosts/uconsole-cm5/configuration.nix
-git commit -m "uconsole-cm5: point sway wallpaper at a persistent path"
+git commit -m "<passende Commit-Message>"
 git push -u origin dotfiles-consolidation
 ```
 
