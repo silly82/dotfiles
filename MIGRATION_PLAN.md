@@ -107,6 +107,8 @@ Pushed to `origin/dotfiles-consolidation` on `github.com/silly82/dotfiles`. `nix
 
 ### Step 6 — Test on the actual uConsole CM4 device — NOT DONE (needs the physical device)
 
+**Confirmed 2026-08-23:** the CM4 (Debian) and CM5 (NixOS) setups are two SD cards for the *same physical uConsole shell*, not two separate units. `192.168.7.194` (hostname `uconsole-cm5`) is that device currently booted on the **NixOS/CM5** card — reachable and confirmed via SSH, but the wrong card for this step. **Physical prerequisite before this step can run:** power off the uConsole, swap in the Debian/CM4 SD card, boot it, then get its IP (may differ from `192.168.7.194`) before continuing.
+
 ```bash
 # on the uConsole CM4:
 cd ~/dotfiles && git fetch && git checkout dotfiles-consolidation   # clone fresh if not present yet
@@ -268,6 +270,8 @@ git push -u origin dotfiles-consolidation
 Auf `origin/dotfiles-consolidation` bei `github.com/silly82/dotfiles` gepusht. `nixos-config` brauchte keinen Commit — `git status` war leer, der temporäre Branch dort wieder gelöscht.
 
 ### Schritt 6 — Auf dem echten uConsole-CM4-Gerät testen — NICHT ERLEDIGT (braucht das physische Gerät)
+
+**Bestätigt am 23.08.2026:** CM4 (Debian) und CM5 (NixOS) sind zwei SD-Karten für **dieselbe physische uConsole-Hülle**, keine zwei getrennten Geräte. `192.168.7.194` (Hostname `uconsole-cm5`) ist dieses Gerät, aktuell auf der **NixOS/CM5**-Karte gebootet — per SSH erreichbar und bestätigt, aber die falsche Karte für diesen Schritt. **Physische Voraussetzung, bevor dieser Schritt laufen kann:** uConsole ausschalten, Debian/CM4-SD-Karte einlegen, booten, dann die (ggf. andere) IP besorgen, bevor es weitergeht.
 
 ```bash
 # auf der uConsole CM4:
