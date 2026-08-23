@@ -1,6 +1,6 @@
 # Migration Plan: Dotfiles Consolidation
 
-**Created:** 2026-08-23 · **Status:** in progress — Steps 0–3, 5 done on `dotfiles`; Step 6 is N/A (CM4 hardware retired, see below); Steps 7–8 need user confirmation.
+**Created:** 2026-08-23 · **Status:** DONE. All applicable steps complete: 0–3, 5, 7, 8. Step 6 was N/A (CM4 hardware retired). `uconsole-dotfiles` is merged into `dotfiles/uconsole-cm4/` on `main` and archived on GitHub.
 
 ## Goal
 
@@ -24,8 +24,8 @@ End state: exactly **two** repos, no permanent branches-per-machine.
 | Repo | Owns | Status |
 |---|---|---|
 | `nixos-config` | System config for `GallifreyM1`, `nixos`, and **uConsole CM5** (NixOS: direct `sway` via `services.greetd`, no cage/gtkgreet, declared inline in `hosts/uconsole-cm5/configuration.nix`). | Not touched by this plan — see finding below. |
-| `dotfiles` | Ghostty/kitty/iterm2/shell (Mac) + now `uconsole-cm4/` (sway, waybar, greetd, systemd — see below). Also an unrelated `hermes/` dir (out of scope). | `uconsole-cm4/` merged in on branch `dotfiles-consolidation`, pushed to `origin`. Not yet in `main`. |
-| `uconsole-dotfiles` | `sway/`, `waybar/`, `greetd/`, `systemd/user/` for the **uConsole CM4** (Debian 13 trixie, apt-managed, greetd+cage+gtkgreet login). | Content fully copied into `dotfiles/uconsole-cm4/`. Repo itself not yet archived (Step 8). |
+| `dotfiles` | Ghostty/kitty/iterm2/shell (Mac) + now `uconsole-cm4/` (sway, waybar, greetd, systemd — see below). Also an unrelated `hermes/` dir (out of scope). | `uconsole-cm4/` merged into `main` (`dotfiles-consolidation` branch deleted, both locally and on `origin`). |
+| `uconsole-dotfiles` | `sway/`, `waybar/`, `greetd/`, `systemd/user/` for the **uConsole CM4** (Debian 13 trixie, apt-managed, greetd+cage+gtkgreet login). | Content fully copied into `dotfiles/uconsole-cm4/`. Repo archived on GitHub 2026-08-23 (not deleted). |
 
 **Key finding — this plan's original premise was wrong, corrected 2026-08-23 after actually reading the content:** `uconsole-dotfiles` is *not* a stale duplicate of `nixos-config`'s uConsole host. There are **two separate physical uConsole devices**:
 
@@ -45,7 +45,7 @@ dotfiles/
   iterm2/…                     unchanged
   shell/…                      unchanged
   hermes/…                     untouched, out of scope
-  uconsole-cm4/                 NEW — done, on branch dotfiles-consolidation
+  uconsole-cm4/                 NEW — done, on main
     sway/config
     sway/wallpapers/wallpaper.png
     waybar/config.jsonc
@@ -56,7 +56,7 @@ dotfiles/
     systemd/user/rpi-connect-wayvnc.service.d/override.conf
   README.md                    new "uConsole CM4 (Debian 13 trixie, Sway/Wayland)" section — done
 
-uconsole-dotfiles/              archived on GitHub once verified on-device — Step 8
+uconsole-dotfiles/              archived on GitHub 2026-08-23 — DONE
 ```
 
 ## Steps
@@ -111,7 +111,7 @@ Pushed to `origin/dotfiles-consolidation` on `github.com/silly82/dotfiles`. `nix
 
 This removes the original reason for gating `main` behind a device test (a bad edit breaking boot on a device that no longer exists in that configuration). Steps 7–8 can proceed without a device-verification gate — but still only with your go-ahead, since both still touch shared/remote state (`main`, and archiving a public repo).
 
-### Step 7 — Merge to `main` — needs user confirmation first
+### Step 7 — Merge to `main` — DONE (2026-08-23, user confirmed)
 
 No device test to wait for anymore (see Step 6) — this can happen as soon as you say go:
 
@@ -126,7 +126,7 @@ git push origin --delete dotfiles-consolidation
 
 No device to switch back to `main` on — the CM4 hardware no longer exists (see Step 6). This is purely a repo-side merge.
 
-### Step 8 — Retire `uconsole-dotfiles` — needs user confirmation first
+### Step 8 — Retire `uconsole-dotfiles` — DONE (2026-08-23, user confirmed, archived not deleted)
 
 Once Step 7 is done: **ask the user** before archiving `uconsole-dotfiles` on GitHub (Settings → Archive repository). This is a visible, remote action — do not do it unattended. Do not delete the repo.
 
@@ -142,7 +142,7 @@ Once Step 7 is done: **ask the user** before archiving `uconsole-dotfiles` on Gi
 
 # Migrationsplan: Dotfiles-Konsolidierung (Deutsch)
 
-**Erstellt:** 2026-08-23 · **Status:** in Arbeit — Schritte 0–3, 5 in `dotfiles` erledigt; Schritt 6 entfällt (CM4-Hardware stillgelegt, siehe unten); Schritte 7–8 brauchen deine Bestätigung.
+**Erstellt:** 2026-08-23 · **Status:** ERLEDIGT. Alle anwendbaren Schritte abgeschlossen: 0–3, 5, 7, 8. Schritt 6 entfiel (CM4-Hardware stillgelegt). `uconsole-dotfiles` ist nach `dotfiles/uconsole-cm4/` auf `main` gemerged und auf GitHub archiviert.
 
 ## Ziel
 
@@ -166,8 +166,8 @@ Zielzustand: genau **zwei** Repos, keine dauerhaften Branches pro Rechner.
 | Repo | Zuständig für | Status |
 |---|---|---|
 | `nixos-config` | System-Konfig für `GallifreyM1`, `nixos` und **uConsole CM5** (NixOS: `sway` direkt via `services.greetd`, kein cage/gtkgreet, inline in `hosts/uconsole-cm5/configuration.nix`). | Von diesem Plan nicht angefasst — siehe Befund unten. |
-| `dotfiles` | Ghostty/kitty/iterm2/Shell (Mac) + neu `uconsole-cm4/` (Sway, Waybar, greetd, systemd — siehe unten). Zusätzlich ein unabhängiger `hermes/`-Ordner (ausserhalb des Plans). | `uconsole-cm4/` auf Branch `dotfiles-consolidation` gemerged, auf `origin` gepusht. Noch nicht in `main`. |
-| `uconsole-dotfiles` | `sway/`, `waybar/`, `greetd/`, `systemd/user/` für die **uConsole CM4** (Debian 13 trixie, apt-verwaltet, greetd+cage+gtkgreet-Login). | Inhalt vollständig nach `dotfiles/uconsole-cm4/` übernommen. Repo selbst noch nicht archiviert (Schritt 8). |
+| `dotfiles` | Ghostty/kitty/iterm2/Shell (Mac) + neu `uconsole-cm4/` (Sway, Waybar, greetd, systemd — siehe unten). Zusätzlich ein unabhängiger `hermes/`-Ordner (ausserhalb des Plans). | `uconsole-cm4/` in `main` gemerged (`dotfiles-consolidation`-Branch lokal und auf `origin` gelöscht). |
+| `uconsole-dotfiles` | `sway/`, `waybar/`, `greetd/`, `systemd/user/` für die **uConsole CM4** (Debian 13 trixie, apt-verwaltet, greetd+cage+gtkgreet-Login). | Inhalt vollständig nach `dotfiles/uconsole-cm4/` übernommen. Repo am 23.08.2026 auf GitHub archiviert (nicht gelöscht). |
 
 **Kernbefund — die ursprüngliche Prämisse dieses Plans war falsch, korrigiert am 23.08.2026 nach tatsächlichem Lesen des Inhalts:** `uconsole-dotfiles` ist **kein** veraltetes Duplikat des NixOS-Hosts in `nixos-config`. Es gibt **zwei getrennte physische uConsole-Geräte**:
 
@@ -187,7 +187,7 @@ dotfiles/
   iterm2/…                     unverändert
   shell/…                      unverändert
   hermes/…                     unangetastet, ausserhalb des Plans
-  uconsole-cm4/                 NEU — erledigt, auf Branch dotfiles-consolidation
+  uconsole-cm4/                 NEU — erledigt, auf main
     sway/config
     sway/wallpapers/wallpaper.png
     waybar/config.jsonc
@@ -198,7 +198,7 @@ dotfiles/
     systemd/user/rpi-connect-wayvnc.service.d/override.conf
   README.md                    neuer Abschnitt "uConsole CM4 (Debian 13 trixie, Sway/Wayland)" — erledigt
 
-uconsole-dotfiles/              auf GitHub archiviert, sobald auf dem Gerät verifiziert — Schritt 8
+uconsole-dotfiles/              auf GitHub archiviert am 23.08.2026 — ERLEDIGT
 ```
 
 ## Schritte
@@ -253,7 +253,7 @@ Auf `origin/dotfiles-consolidation` bei `github.com/silly82/dotfiles` gepusht. `
 
 Damit entfällt der ursprüngliche Grund, `main` hinter einem Geräte-Test zurückzuhalten (eine falsche Änderung könnte sonst den Boot eines Geräts zerlegen, das es in dieser Konfiguration gar nicht mehr gibt). Schritte 7–8 können ohne Geräte-Verifikations-Gate weitergehen — aber weiterhin nur mit deiner Freigabe, da beide gemeinsamen/remote State betreffen (`main`, und das Archivieren eines öffentlichen Repos).
 
-### Schritt 7 — Merge nach `main` — braucht vorher deine Bestätigung
+### Schritt 7 — Merge nach `main` — ERLEDIGT (23.08.2026, vom Nutzer bestätigt)
 
 Kein Geräte-Test mehr abzuwarten (siehe Schritt 6) — das kann passieren, sobald du grünes Licht gibst:
 
@@ -268,7 +268,7 @@ git push origin --delete dotfiles-consolidation
 
 Kein Gerät mehr, das auf `main` zurückwechseln müsste — die CM4-Hardware existiert nicht mehr (siehe Schritt 6). Das ist ein reiner Repo-seitiger Merge.
 
-### Schritt 8 — `uconsole-dotfiles` stilllegen — braucht vorher deine Bestätigung
+### Schritt 8 — `uconsole-dotfiles` stilllegen — ERLEDIGT (23.08.2026, vom Nutzer bestätigt, archiviert nicht gelöscht)
 
 Sobald Schritt 7 abgeschlossen ist: **vor dem Archivieren von `uconsole-dotfiles` auf GitHub den Nutzer fragen** (Settings → Archive repository). Das ist eine sichtbare, remote wirksame Aktion — nicht unbeaufsichtigt ausführen. Das Repo nicht löschen.
 
