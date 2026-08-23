@@ -1,6 +1,6 @@
 # Migration Plan: Dotfiles Consolidation
 
-**Created:** 2026-08-23 · **Status:** in progress — Steps 0–3, 5 done on `dotfiles`; Steps 6–8 need the real uConsole CM4 device / user confirmation.
+**Created:** 2026-08-23 · **Status:** in progress — Steps 0–3, 5 done on `dotfiles`; Step 6 is N/A (CM4 hardware retired, see below); Steps 7–8 need user confirmation.
 
 ## Goal
 
@@ -11,7 +11,7 @@ End state: exactly **two** repos, no permanent branches-per-machine.
 
 `uconsole-dotfiles` is retired (archived, not deleted) once its content is verified merged.
 
-**Workflow:** done on a short-lived feature branch `dotfiles-consolidation` in `dotfiles` (pushed to `origin`), not directly on `main` and not in a new repo. Reason: the target device (uConsole CM4) needs to be verified working — including surviving an actual reboot — before `main` reflects the change. Only the Mac authored commits; the CM4 device only fetches the branch to test, it never pushes its own state. Once verified, the branch is merged to `main` and deleted — this is not a permanent parallel branch.
+**Workflow:** done on a short-lived feature branch `dotfiles-consolidation` in `dotfiles` (pushed to `origin`), not directly on `main` and not in a new repo. Originally gated on verifying the change on the actual CM4 device before touching `main` — moot now that the CM4 module has been physically replaced by CM5 (see Step 6). The branch still gets merged to `main` and deleted once you confirm — it was just never meant to be a permanent parallel branch.
 
 ## Non-goals (explicitly out of scope for this plan)
 
@@ -105,31 +105,15 @@ git push -u origin dotfiles-consolidation
 
 Pushed to `origin/dotfiles-consolidation` on `github.com/silly82/dotfiles`. `nixos-config` needed no commit — confirmed clean (`git status` empty) and its temporary branch was deleted.
 
-### Step 6 — Test on the actual uConsole CM4 device — NOT DONE (needs the physical device)
+### Step 6 — ~~Test on the actual uConsole CM4 device~~ — N/A, hardware retired
 
-**Confirmed 2026-08-23:** the CM4 (Debian) and CM5 (NixOS) setups are two SD cards for the *same physical uConsole shell*, not two separate units. `192.168.7.194` (hostname `uconsole-cm5`) is that device currently booted on the **NixOS/CM5** card — reachable and confirmed via SSH, but the wrong card for this step. **Physical prerequisite before this step can run:** power off the uConsole, swap in the Debian/CM4 SD card, boot it, then get its IP (may differ from `192.168.7.194`) before continuing.
+**Confirmed 2026-08-23 (user):** there is no CM4 card to swap back to — the uConsole's compute module was physically upgraded to CM5, and only the NixOS/CM5 card exists now. The CM4/Debian setup this branch's `uconsole-cm4/` content describes no longer runs anywhere; nothing is left to boot-test. `uconsole-cm4/` in `dotfiles` is now a **historical/archival record** of that retired setup (useful if the module is ever downgraded again, or just for reference), not a live deployment target.
 
-```bash
-# on the uConsole CM4:
-cd ~/dotfiles && git fetch && git checkout dotfiles-consolidation   # clone fresh if not present yet
-
-# back up anything currently at these paths first if it's not already a symlink into this repo
-ln -sfn ~/dotfiles/uconsole-cm4/sway ~/.config/sway
-ln -sfn ~/dotfiles/uconsole-cm4/waybar ~/.config/waybar
-sudo cp ~/dotfiles/uconsole-cm4/greetd/greetd-gtkgreet-run /usr/local/bin/
-sudo cp ~/dotfiles/uconsole-cm4/greetd/config.toml /etc/greetd/
-sudo cp ~/dotfiles/uconsole-cm4/greetd/environments /etc/greetd/
-mkdir -p ~/.config/systemd/user
-ln -sfn ~/dotfiles/uconsole-cm4/systemd/user/rpi-connect-wayvnc.service.d ~/.config/systemd/user/rpi-connect-wayvnc.service.d
-systemctl --user daemon-reload
-systemctl --user restart rpi-connect-wayvnc.service
-```
-
-Verify: Sway starts via greetd/cage/gtkgreet as before, waybar renders with icons, wallpaper shows, `$mod` (Alt) shortcuts work, wayvnc via Raspberry Pi Connect still reachable. **Reboot the device at least once** and re-check before declaring this done — that's the whole point of testing on the branch first. If the device previously ran directly off `uconsole-dotfiles` clone rather than symlinks, note where that old clone lived so it can be retired after Step 8.
+This removes the original reason for gating `main` behind a device test (a bad edit breaking boot on a device that no longer exists in that configuration). Steps 7–8 can proceed without a device-verification gate — but still only with your go-ahead, since both still touch shared/remote state (`main`, and archiving a public repo).
 
 ### Step 7 — Merge to `main` — needs user confirmation first
 
-Only after Step 6's reboot test passes:
+No device test to wait for anymore (see Step 6) — this can happen as soon as you say go:
 
 ```bash
 cd ~/dotfiles
@@ -140,13 +124,7 @@ git branch -d dotfiles-consolidation
 git push origin --delete dotfiles-consolidation
 ```
 
-Then on the CM4 device, switch back to `main`:
-
-```bash
-cd ~/dotfiles && git checkout main && git pull
-```
-
-(No further action needed — content is identical to what was already tested on the branch.)
+No device to switch back to `main` on — the CM4 hardware no longer exists (see Step 6). This is purely a repo-side merge.
 
 ### Step 8 — Retire `uconsole-dotfiles` — needs user confirmation first
 
@@ -155,8 +133,8 @@ Once Step 7 is done: **ask the user** before archiving `uconsole-dotfiles` on Gi
 ## Notes for whichever Claude session executes this
 
 - Steps 0, 1, 2, 3, 5 are done (2026-08-23, from the Mac) — verify with `git log --oneline -3 origin/dotfiles-consolidation` in `~/dotfiles` before redoing any of them.
-- Steps 6, 7, 8 remain. Step 6 needs to run on the physical uConsole CM4 (or a session with SSH access to it) — it cannot be done from the Mac.
-- Steps 7 (merge to `main`) and 8 (archive `uconsole-dotfiles`) both require explicit user confirmation before running — these affect shared/remote state.
+- Step 6 is N/A — the CM4 module was physically replaced by CM5, confirmed by the user 2026-08-23. Don't try to find or SSH into a CM4 device; it no longer exists. `192.168.7.194` / hostname `uconsole-cm5` is the same physical shell, now NixOS-only.
+- Steps 7 (merge to `main`) and 8 (archive `uconsole-dotfiles`) remain, both require explicit user confirmation before running — these affect shared/remote state.
 - `nixos-config` and the uConsole **CM5**/NixOS host are unaffected by this plan — do not touch them here.
 - Leave `hermes/` alone; it is not part of this plan.
 
@@ -164,7 +142,7 @@ Once Step 7 is done: **ask the user** before archiving `uconsole-dotfiles` on Gi
 
 # Migrationsplan: Dotfiles-Konsolidierung (Deutsch)
 
-**Erstellt:** 2026-08-23 · **Status:** in Arbeit — Schritte 0–3, 5 in `dotfiles` erledigt; Schritte 6–8 brauchen das echte uConsole-CM4-Gerät bzw. deine Bestätigung.
+**Erstellt:** 2026-08-23 · **Status:** in Arbeit — Schritte 0–3, 5 in `dotfiles` erledigt; Schritt 6 entfällt (CM4-Hardware stillgelegt, siehe unten); Schritte 7–8 brauchen deine Bestätigung.
 
 ## Ziel
 
@@ -175,7 +153,7 @@ Zielzustand: genau **zwei** Repos, keine dauerhaften Branches pro Rechner.
 
 `uconsole-dotfiles` wird stillgelegt (archiviert, nicht gelöscht), sobald der Inhalt nachweislich übernommen ist.
 
-**Vorgehen:** über einen kurzlebigen Feature-Branch `dotfiles-consolidation` in `dotfiles` (auf `origin` gepusht) — nicht direkt auf `main`, und nicht in einem neuen Repo. Grund: das Zielgerät (uConsole CM4) muss erst als funktionierend verifiziert werden, inklusive echtem Reboot-Test, bevor `main` den neuen Stand bekommt. Nur der Mac hat Commits erzeugt; das CM4-Gerät holt sich den Branch nur zum Testen, es pusht nie seinen eigenen Stand. Nach erfolgreicher Verifikation wird der Branch in `main` gemergt und gelöscht — kein dauerhafter Parallel-Branch.
+**Vorgehen:** über einen kurzlebigen Feature-Branch `dotfiles-consolidation` in `dotfiles` (auf `origin` gepusht) — nicht direkt auf `main`, und nicht in einem neuen Repo. Ursprünglich daran geknüpft, die Änderung erst auf dem echten CM4-Gerät zu verifizieren, bevor `main` angefasst wird — hinfällig, seit das CM4-Modul physisch durch CM5 ersetzt wurde (siehe Schritt 6). Der Branch wird trotzdem nach deiner Freigabe in `main` gemergt und gelöscht — er war nie als dauerhafter Parallel-Branch gedacht.
 
 ## Nicht-Ziele (bewusst ausserhalb dieses Plans)
 
@@ -269,31 +247,15 @@ git push -u origin dotfiles-consolidation
 
 Auf `origin/dotfiles-consolidation` bei `github.com/silly82/dotfiles` gepusht. `nixos-config` brauchte keinen Commit — `git status` war leer, der temporäre Branch dort wieder gelöscht.
 
-### Schritt 6 — Auf dem echten uConsole-CM4-Gerät testen — NICHT ERLEDIGT (braucht das physische Gerät)
+### Schritt 6 — ~~Auf dem echten uConsole-CM4-Gerät testen~~ — entfällt, Hardware stillgelegt
 
-**Bestätigt am 23.08.2026:** CM4 (Debian) und CM5 (NixOS) sind zwei SD-Karten für **dieselbe physische uConsole-Hülle**, keine zwei getrennten Geräte. `192.168.7.194` (Hostname `uconsole-cm5`) ist dieses Gerät, aktuell auf der **NixOS/CM5**-Karte gebootet — per SSH erreichbar und bestätigt, aber die falsche Karte für diesen Schritt. **Physische Voraussetzung, bevor dieser Schritt laufen kann:** uConsole ausschalten, Debian/CM4-SD-Karte einlegen, booten, dann die (ggf. andere) IP besorgen, bevor es weitergeht.
+**Bestätigt am 23.08.2026 (Nutzer):** es gibt keine CM4-Karte mehr zum Zurückwechseln — das Compute-Modul der uConsole wurde physisch auf CM5 aufgerüstet, es existiert nur noch die NixOS/CM5-Karte. Das CM4/Debian-Setup, das der Inhalt von `uconsole-cm4/` in diesem Branch beschreibt, läuft nirgends mehr; es gibt nichts mehr zum Boot-Testen. `uconsole-cm4/` in `dotfiles` ist jetzt ein **historisches Archiv** dieses stillgelegten Setups (nützlich, falls das Modul je wieder zurückgerüstet wird, oder einfach als Referenz), kein aktives Deployment-Ziel mehr.
 
-```bash
-# auf der uConsole CM4:
-cd ~/dotfiles && git fetch && git checkout dotfiles-consolidation   # bei Bedarf frisch klonen
-
-# vorher alles an diesen Pfaden sichern, das noch kein Symlink in dieses Repo ist
-ln -sfn ~/dotfiles/uconsole-cm4/sway ~/.config/sway
-ln -sfn ~/dotfiles/uconsole-cm4/waybar ~/.config/waybar
-sudo cp ~/dotfiles/uconsole-cm4/greetd/greetd-gtkgreet-run /usr/local/bin/
-sudo cp ~/dotfiles/uconsole-cm4/greetd/config.toml /etc/greetd/
-sudo cp ~/dotfiles/uconsole-cm4/greetd/environments /etc/greetd/
-mkdir -p ~/.config/systemd/user
-ln -sfn ~/dotfiles/uconsole-cm4/systemd/user/rpi-connect-wayvnc.service.d ~/.config/systemd/user/rpi-connect-wayvnc.service.d
-systemctl --user daemon-reload
-systemctl --user restart rpi-connect-wayvnc.service
-```
-
-Prüfen: Sway startet wie gewohnt über greetd/cage/gtkgreet, Waybar zeigt Icons, Wallpaper wird angezeigt, `$mod`-Shortcuts (Alt) funktionieren, wayvnc via Raspberry Pi Connect weiterhin erreichbar. **Das Gerät mindestens einmal neu starten** und danach erneut prüfen — genau dafür ist der Test auf dem Branch da. Falls das Gerät bisher direkt von einem `uconsole-dotfiles`-Klon lief statt von Symlinks: notieren, wo dieser alte Klon liegt, damit er nach Schritt 8 stillgelegt werden kann.
+Damit entfällt der ursprüngliche Grund, `main` hinter einem Geräte-Test zurückzuhalten (eine falsche Änderung könnte sonst den Boot eines Geräts zerlegen, das es in dieser Konfiguration gar nicht mehr gibt). Schritte 7–8 können ohne Geräte-Verifikations-Gate weitergehen — aber weiterhin nur mit deiner Freigabe, da beide gemeinsamen/remote State betreffen (`main`, und das Archivieren eines öffentlichen Repos).
 
 ### Schritt 7 — Merge nach `main` — braucht vorher deine Bestätigung
 
-Erst nachdem der Reboot-Test aus Schritt 6 bestanden ist:
+Kein Geräte-Test mehr abzuwarten (siehe Schritt 6) — das kann passieren, sobald du grünes Licht gibst:
 
 ```bash
 cd ~/dotfiles
@@ -304,13 +266,7 @@ git branch -d dotfiles-consolidation
 git push origin --delete dotfiles-consolidation
 ```
 
-Danach auf dem CM4-Gerät zurück auf `main` wechseln:
-
-```bash
-cd ~/dotfiles && git checkout main && git pull
-```
-
-(Nichts weiter nötig — der Inhalt ist identisch zu dem, was bereits auf dem Branch getestet wurde.)
+Kein Gerät mehr, das auf `main` zurückwechseln müsste — die CM4-Hardware existiert nicht mehr (siehe Schritt 6). Das ist ein reiner Repo-seitiger Merge.
 
 ### Schritt 8 — `uconsole-dotfiles` stilllegen — braucht vorher deine Bestätigung
 
@@ -319,7 +275,7 @@ Sobald Schritt 7 abgeschlossen ist: **vor dem Archivieren von `uconsole-dotfiles
 ## Hinweise für die ausführende Claude-Session
 
 - Schritte 0, 1, 2, 3, 5 sind erledigt (23.08.2026, vom Mac aus) — vor erneuter Ausführung mit `git log --oneline -3 origin/dotfiles-consolidation` in `~/dotfiles` prüfen.
-- Schritte 6, 7, 8 stehen noch aus. Schritt 6 muss auf der physischen uConsole CM4 laufen (oder einer Session mit SSH-Zugriff darauf) — vom Mac aus nicht möglich.
-- Schritt 7 (Merge nach `main`) und Schritt 8 (Archivieren von `uconsole-dotfiles`) brauchen beide vorherige explizite Nutzerbestätigung — beide betreffen gemeinsamen/remote State.
+- Schritt 6 entfällt — das CM4-Modul wurde physisch durch CM5 ersetzt, bestätigt vom Nutzer am 23.08.2026. Nicht versuchen, ein CM4-Gerät zu finden oder sich per SSH draufzuverbinden — existiert nicht mehr. `192.168.7.194` / Hostname `uconsole-cm5` ist dieselbe physische Hülle, jetzt nur noch NixOS.
+- Schritte 7 (Merge nach `main`) und 8 (Archivieren von `uconsole-dotfiles`) stehen noch aus, beide brauchen vorherige explizite Nutzerbestätigung — beide betreffen gemeinsamen/remote State.
 - `nixos-config` und der uConsole-**CM5**/NixOS-Host sind von diesem Plan nicht betroffen — hier nicht anfassen.
 - `hermes/` bleibt unangetastet, ist nicht Teil dieses Plans.
