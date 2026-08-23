@@ -71,3 +71,58 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
 ## Shell (zsh / macOS `ls`)
 
 Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (lokal: in `~/.zshrc` per `source` einbinden). **Vorlage:** `shell/zshrc.fragment` (Zeilen in die eigene `~/.zshrc` übernehmen).
+
+## uConsole CM4 (Debian 13 trixie, Sway/Wayland)
+
+Persönliche Sway/Wayland-Konfiguration für den ClockworkPi uConsole mit **Raspberry Pi CM4** (Debian, apt-verwaltet). **Nicht zu verwechseln** mit dem separaten uConsole-**CM5**-Gerät, das unter NixOS läuft und komplett im Repo `nixos-config` deklariert ist (`hosts/uconsole-cm5/configuration.nix`) — zwei unterschiedliche Geräte, zwei unterschiedliche Konfigurationswege (dieses hier: plain dotfiles + apt; CM5: deklarativ via Nix).
+
+| Rolle | Pfad auf dem Gerät | Repo-Pfad |
+|---|---|---|
+| Sway-Config | `~/.config/sway/config` | `uconsole-cm4/sway/config` |
+| Wallpaper (Shortcut-Übersicht) | `~/.config/sway/wallpaper.png` | `uconsole-cm4/sway/wallpapers/wallpaper.png` |
+| Waybar-Config | `~/.config/waybar/` | `uconsole-cm4/waybar/` |
+| greetd-Login (cage + gtkgreet) | `/etc/greetd/config.toml`, `/etc/greetd/environments`, `/usr/local/bin/greetd-gtkgreet-run` | `uconsole-cm4/greetd/` |
+| Raspberry Pi Connect wayvnc-Override | `~/.config/systemd/user/rpi-connect-wayvnc.service.d/` | `uconsole-cm4/systemd/user/rpi-connect-wayvnc.service.d/` |
+
+### Eckdaten
+
+- Panel-Rotation: DSI-1, `transform 270` (cage) / `transform 90` (Sway), Scale 1.5 → ~853×480.
+- Alt-Taste als Super (`$mod` = Mod4 via `altwin:swap_lalt_lwin`) — uConsole hat keine Win-Taste.
+- Login-Screen: greetd + gtkgreet + cage, Session-Auswahl (sway, labwc, bash).
+- Waybar mit Nerd-Font-Icons (WLAN, Lautstärke, Helligkeit, Akku); wird von Sway bei `$mod+Shift+c` automatisch mitneugestartet.
+
+### Neu aufsetzen
+
+Abhängigkeiten (apt, nicht Nix):
+
+    sudo apt-get install -y sway waybar mako fuzzel foot brightnessctl pipewire \
+                            greetd gtkgreet cage iwgtk network-manager
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts
+    curl -sL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/NerdFontsSymbolsOnly.zip -o symbols.zip
+    unzip -qo symbols.zip && fc-cache -fv
+
+Configs übernehmen:
+
+    ln -sfn ~/dotfiles/uconsole-cm4/sway ~/.config/sway
+    ln -sfn ~/dotfiles/uconsole-cm4/waybar ~/.config/waybar
+    sudo cp ~/dotfiles/uconsole-cm4/greetd/greetd-gtkgreet-run /usr/local/bin/
+    sudo cp ~/dotfiles/uconsole-cm4/greetd/config.toml /etc/greetd/
+    sudo cp ~/dotfiles/uconsole-cm4/greetd/environments /etc/greetd/
+    mkdir -p ~/.config/systemd/user
+    ln -sfn ~/dotfiles/uconsole-cm4/systemd/user/rpi-connect-wayvnc.service.d ~/.config/systemd/user/rpi-connect-wayvnc.service.d
+    systemctl --user daemon-reload
+
+`_greetd`-Benutzer berechtigen (wichtig!):
+
+    sudo usermod -aG video,input,render _greetd
+
+Display-Manager umstellen:
+
+    sudo systemctl stop lightdm
+    sudo systemctl disable lightdm
+    sudo ln -sf /lib/systemd/system/greetd.service /etc/systemd/system/display-manager.service
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now greetd
+
+Details zu 4G/LTE-Modul, WLAN-Signalverbesserung, SD-Karten-Automount etc.: siehe Git-Historie von `github.com/silly82/uconsole-dotfiles` (archiviert, Inhalt hier übernommen).
