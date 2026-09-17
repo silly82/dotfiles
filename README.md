@@ -72,6 +72,39 @@ In diesem Repo: **`kitty/xdg/`** = Inhalt des Kitty-Config-Ordners (u. a. `kitty
 
 Für farbiges `ls` nutzt macOS **`LSCOLORS`** (nicht `LS_COLORS`). Das System-Default enthält **braun** (`d`) als Farbe — wirkt oft wie schmutzige Flächen. Anpassung: `shell/macos-lscolors.zsh` (lokal: in `~/.zshrc` per `source` einbinden). **Vorlage:** `shell/zshrc.fragment` (Zeilen in die eigene `~/.zshrc` übernehmen).
 
+## Post-Nix-Umstieg (GallifreyM1): Shell, Git, SSH, Starship
+
+Diese Dateien sind aus den Home-Manager-generierten Dotfiles gerettet und von `/nix/store/...`-Pfaden auf Homebrew (`brew --prefix`, PATH-Suche) umgestellt, im Zuge des Umstiegs von nix-darwin zurück auf Homebrew (Details/Hintergrund: `~/nixos-config` Git-Historie bzw. Chat-Plan). **Noch nicht verlinkt** — das passiert erst, nachdem Nix tatsächlich deinstalliert ist (sonst kollidiert es mit den aktiven Home-Manager-Symlinks).
+
+| Datei im Repo | Ziel (nach Nix-Deinstallation) |
+|---|---|
+| `shell/zshrc` | `~/.zshrc` |
+| `shell/zshenv` | `~/.zshenv` |
+| `git/config` | `~/.config/git/config` |
+| `git/ignore` | `~/.config/git/ignore` |
+| `ssh/config` | `~/.ssh/config` |
+| `starship/starship.toml` | `~/.config/starship.toml` |
+
+Setup (erst ausführen, wenn Nix weg ist und Homebrew nativ neu installiert wurde):
+
+```sh
+ln -sf "$HOME/dotfiles/shell/zshrc"            "$HOME/.zshrc"
+ln -sf "$HOME/dotfiles/shell/zshenv"           "$HOME/.zshenv"
+mkdir -p "$HOME/.config/git"
+ln -sf "$HOME/dotfiles/git/config"             "$HOME/.config/git/config"
+ln -sf "$HOME/dotfiles/git/ignore"             "$HOME/.config/git/ignore"
+ln -sf "$HOME/dotfiles/ssh/config"             "$HOME/.ssh/config"
+ln -sf "$HOME/dotfiles/starship/starship.toml" "$HOME/.config/starship.toml"
+```
+
+**Paket-Mapping:** `homebrew/Brewfile` enthält alle Pakete, die aktuell über `environment.systemPackages`, `home.packages` (Home-Manager) und den imperativen `nix profile install` liefen, auf Homebrew-Formeln/Casks übersetzt (u. a. `delta` → `git-delta`, `bottom` liefert Binary `btm`; `nixd`/`nil`/`nix-tree` entfallen ersatzlos). Anwenden, sobald Homebrew nativ neu installiert ist:
+
+```sh
+brew bundle --file="$HOME/dotfiles/homebrew/Brewfile"
+```
+
+**Bekannter Nebenbefund:** Es existiert zusätzlich ein reguläres (nicht Nix-verwaltetes) `~/.gitconfig` mit `user.name = "Silvan"` (git-lfs-Filter) — abweichend vom hier gesicherten `git/config` mit `user.name = "Silvan Walker"`. Git liest beide; wurde hier nicht angetastet, sollte aber vor dem finalen Umstieg bereinigt werden (welcher Name/welche Datei soll bleiben?).
+
 ## uConsole CM4 (Debian 13 trixie, Sway/Wayland)
 
 Persönliche Sway/Wayland-Konfiguration für den ClockworkPi uConsole mit **Raspberry Pi CM4** (Debian, apt-verwaltet). **Nicht zu verwechseln** mit dem separaten uConsole-**CM5**-Gerät, das unter NixOS läuft und komplett im Repo `nixos-config` deklariert ist (`hosts/uconsole-cm5/configuration.nix`) — zwei unterschiedliche Geräte, zwei unterschiedliche Konfigurationswege (dieses hier: plain dotfiles + apt; CM5: deklarativ via Nix).

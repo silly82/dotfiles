@@ -1,0 +1,55 @@
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[alias]
+	br = "branch"
+	co = "checkout"
+	lg = "log --oneline --graph --decorate --all"
+	st = "status -sb"
+	undo = "reset HEAD~1 --mixed"
+
+[core]
+	editor = "code --wait"
+
+[delta]
+	line-numbers = true
+	navigate = true
+	side-by-side = true
+	syntax-theme = "gruvbox-dark"
+
+[gpg]
+	format = "openpgp"
+
+[gpg "openpgp"]
+	program = "gpg"
+
+[init]
+	defaultBranch = "main"
+
+[interactive]
+	diffFilter = "delta --color-only"
+
+[merge]
+	conflictstyle = "zdiff3"
+
+[pager]
+	blame = "delta"
+	diff = "delta"
+	log = "delta"
+	show = "delta"
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true
+
+[rerere]
+	enabled = true
+
+[user]
+	email = "siliwalker@gmail.com"
+	name = "Silvan Walker"

@@ -1,0 +1,67 @@
+# Brewfile — GallifreyM1 Post-Nix-Umstieg
+#
+# Erzeugt aus dem vollständigen Nix-Inventar (nix-darwin environment.systemPackages,
+# Home-Manager home.packages, imperativ per `nix profile install` installierte Pakete)
+# — siehe README.md, Abschnitt "Post-Nix-Umstieg". Noch NICHT ausgeführt.
+#
+# Erst anwenden, nachdem Homebrew nativ neu installiert wurde (Phase 4 des Plans):
+#   brew bundle --file="$HOME/dotfiles/homebrew/Brewfile"
+
+# ── CLI-Tools (vormals environment.systemPackages in nix-darwin) ────────────
+brew "git"
+brew "curl"
+brew "wget"
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "eza"
+brew "fzf"
+brew "jq"
+brew "htop"
+brew "btop"
+brew "fastfetch"
+brew "ffmpeg"
+brew "imagemagick"
+brew "tree"
+brew "platformio"
+# unzip/zip: keine Homebrew-Formel nötig, macOS liefert beide bereits mit
+
+# ── CLI-Tools (vormals home.packages via Home-Manager) ──────────────────────
+brew "gh"
+brew "lazygit"
+brew "just"
+brew "direnv"
+brew "tldr"
+brew "git-delta"   # Achtung: Formel heisst "git-delta", nicht "delta"
+brew "gdu"
+brew "bottom"      # installiert Binary "btm"
+# nixd, nil, nix-tree: entfallen — reine Nix-Sprachtools, nach dem Umstieg nicht mehr gebraucht
+
+# ── Vormals imperativ per `nix profile install` (nicht deklarativ) ──────────
+brew "bash"
+brew "bash-completion"
+brew "cmake"
+brew "elixir"
+brew "erlang"
+brew "esptool"
+brew "bitwarden-cli"
+
+# ── Bereits vorhanden (aktuell über nix-homebrew verwaltet, hier nur fortgeführt) ─
+brew "arduino-cli"
+brew "kilo"
+brew "python@3.13"
+brew "python@3.9"
+brew "sshpass"
+
+# ── GUI-Apps (vormals homebrew.casks in nix-darwin) ─────────────────────────
+cask "firefox"
+cask "visual-studio-code"
+cask "iterm2"
+cask "rectangle"
+cask "raycast"
+cask "obsidian"
+
+# ── Fonts (vormals fonts.packages, nerd-fonts.*) ────────────────────────────
+cask "font-jetbrains-mono-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-meslo-lg-nerd-font"

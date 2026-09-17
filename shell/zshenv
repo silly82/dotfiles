@@ -1,0 +1,10 @@
+# ~/.zshenv — Nachfolger der Home-Manager-generierten Version
+# Ersetzt hm-session-vars.sh: stellt sicher, dass Homebrew im PATH ist,
+# auch für nicht-interaktive/nicht-Login-Shells (z. B. von GUI-Apps gestartet).
+
+if [[ -z "${__BREW_SHELLENV_SOURCED-}" ]]; then
+  export __BREW_SHELLENV_SOURCED=1
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+fi

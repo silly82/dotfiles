@@ -1,0 +1,51 @@
+# ~/.zshrc — Nachfolger der Home-Manager-generierten Version (siehe nix_removal_plan)
+# Quelle der bisherigen Werte: ~/nixos-config/hosts/GallifreyM1/home.nix (programs.zsh)
+# Alle /nix/store/... Pfade durch $(brew --prefix)-relative bzw. PATH-Aufrufe ersetzt.
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_DUPS HIST_IGNORE_SPACE SHARE_HISTORY
+
+autoload -U compinit && compinit
+
+# ls-Farben: braune Hintergründe/-Flächen aus Default-LSCOLORS entfernt (s. dotfiles)
+[[ -f "$HOME/dotfiles/shell/macos-lscolors.zsh" ]] && source "$HOME/dotfiles/shell/macos-lscolors.zsh"
+
+# zsh-autosuggestions / zsh-syntax-highlighting (brew: zsh-autosuggestions, zsh-syntax-highlighting)
+BREW_PREFIX="$(brew --prefix 2>/dev/null)"
+if [[ -n "$BREW_PREFIX" ]]; then
+  [[ -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
+    source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  ZSH_AUTOSUGGEST_STRATEGY=(history)
+
+  # muss als letztes Plugin geladen werden
+  [[ -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
+    source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+fi
+
+# bessere Completion-Darstellung
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# starship prompt
+if [[ $TERM != "dumb" ]] && command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# direnv
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+
+# fzf (moderne Variante, versionsunabhängig von brew-Pfaden)
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
+
+# secrets (nicht im Repo)
+[ -f "$HOME/.config/zsh/secrets.zsh" ] && source "$HOME/.config/zsh/secrets.zsh"
+
+alias -- cat=bat
+alias -- find=fd
+alias -- grep=rg
+alias -- ll='eza -la --icons --git'
+alias -- ls='eza --icons'
+alias -- lt='eza --tree --icons -L 2'
