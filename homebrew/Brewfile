@@ -66,3 +66,6 @@ cask "obsidian"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "font-meslo-lg-nerd-font"
+
+# ── Homebrew's eigene GUI (BrewUI, ab Homebrew 7 / macOS 26+) ───────────────
+cask "homebrew-app"
