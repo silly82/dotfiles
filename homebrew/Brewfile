@@ -35,6 +35,7 @@ brew "tldr"
 brew "git-delta"   # Achtung: Formel heisst "git-delta", nicht "delta"
 brew "gdu"
 brew "bottom"      # installiert Binary "btm"
+brew "starship"
 # nixd, nil, nix-tree: entfallen — reine Nix-Sprachtools, nach dem Umstieg nicht mehr gebraucht
 
 # ── Vormals imperativ per `nix profile install` (nicht deklarativ) ──────────
